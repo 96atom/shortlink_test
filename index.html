@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>URL Shortener</title>
+<style>
+body {
+  font-family: sans-serif;
+}
+#container {
+  width: 500px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+}
+input[type="text"] {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+}
+#result {
+  margin-top: 20px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  word-break: break-all;
+}
+</style>
+</head>
+<body>
+  <div id="container">
+    <h1>URL Shortener</h1>
+    <input type="text" id="urlInput" placeholder="Enter URL to shorten">
+    <button onclick="shortenURL()">Shorten</button>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    function shortenURL() {
+      var url = document.getElementById('urlInput').value;
+      // You'll need to replace this with your actual API endpoint
+      fetch('/api/shorten', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ url: url })
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('result').innerHTML = '<a href="' + data.shortUrl + '">' + data.shortUrl + '</a>';
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        document.getElementById('result').innerHTML = 'An error occurred.';
+      });
+    }
+  </script>
+</body>
+</html>
